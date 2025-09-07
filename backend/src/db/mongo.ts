@@ -1,7 +1,7 @@
 // 完成版
+
 // connectDB() で Atlas のデフォルト DB に接続
-// disconnectDB() で切断可能
-// デバッグログで URI を確認できる
+// disconnectDB() で切断
 // テスト実行も if (require.main === module) 部分で簡単にできる
 
 import { MongoClient, ServerApiVersion, Db } from "mongodb";
@@ -13,14 +13,11 @@ let db: Db;
 
 /**
  * MongoDB に接続する関数
- * 他のファイルからも呼び出して接続可能
+ * 他のファイルから呼び出して使う
  */
 export async function connectDB(): Promise<Db> {
   // すでに接続済みなら再利用
   if (db) return db;
-
-  // デバッグログ
-  console.log("ENV.MONGODB_URI =", ENV.MONGODB_URI);
 
   // MongoClient の作成
   client = new MongoClient(ENV.MONGODB_URI, {
@@ -36,8 +33,7 @@ export async function connectDB(): Promise<Db> {
 
   // デフォルトデータベースに接続
   db = client.db();
-  console.log("MongoDB に接続しました🔪❤️");
-
+  console.log("MongoDB Atlas に接続しました🔪❤️");
   return db;
 }
 
@@ -47,9 +43,10 @@ export async function connectDB(): Promise<Db> {
 export async function disconnectDB() {
   if (!client) return;
   await client.close();
-  console.log("MongoDB の接続を切断しました");
+  console.log("MongoDB Atlas の接続を切断しました💔💔");
 }
 
+// 未使用だが、テスト用に残しておく
 /**
  * テスト用に直接実行する場合
  * DB に ping を送って接続確認

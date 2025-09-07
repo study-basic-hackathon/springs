@@ -1,14 +1,19 @@
 // 完成版
 
 // バックエンドは CRUD の C(作成) と R(取得) に絞って最小実装
-// JSON ボディの必須項目チェックも入れて、親切仕様 ← ？
 // 投稿保存時に expiresAt(有効期限) を自動追加　(1時間経ったらisActive = false)
-// 投稿取得時に isActive を判定して返す　→ フロントで色分けを実装しやすくした
+// 投稿取得時に isActive を判定して返す　→ フロントで色分けを実装しやすく
 
 import { Router } from "express";
 import { connectDB } from "../db/mongo";
+import { disconnectDB } from "../db/mongo";
 
 const router = Router();
+
+// テストホゲホゲ
+router.get("/hogehoge", async (_req, res) => {
+  res.json({ hogehoge: "fugafuga" });
+});
 
 /**
  * 投稿を保存する API
@@ -68,7 +73,6 @@ router.get("/:placeId", async (req, res) => {
 
 /**
  * 全投稿一覧取得（フロントモック用）
- * ピンに対してまとめて表示する際に便利
  */
 router.get("/", async (_req, res) => {
   const db = await connectDB();
@@ -81,6 +85,15 @@ router.get("/", async (_req, res) => {
   }));
 
   res.json(formattedPosts);
+});
+
+/**
+ * サーバー強制終了
+ * - SIGINT: Ctrl + C
+ */
+process.on("SIGINT", async () => {
+  await disconnectDB();
+  process.exit(0);
 });
 
 export default router;

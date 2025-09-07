@@ -1,0 +1,9 @@
+//本番起動
+npm run build
+（→ dist/ フォルダに server.js ができる。）
+npm start
+実行
+
+
+//開発中(自動でサーバ再起動してくれる)
+npm run dev

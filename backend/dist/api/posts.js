@@ -8,6 +8,10 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = require("express");
 const mongo_1 = require("../db/mongo");
 const router = (0, express_1.Router)();
+// テストホゲホゲ
+router.get("/hogehoge", async (_req, res) => {
+    res.json({ hogehoge: "fugafuga" });
+});
 /**
  * 投稿を保存する API
  * フロントから受け取る JSON:
@@ -57,7 +61,6 @@ router.get("/:placeId", async (req, res) => {
 });
 /**
  * 全投稿一覧取得（フロントモック用）
- * ピンに対してまとめて表示する際に便利
  */
 router.get("/", async (_req, res) => {
     const db = await (0, mongo_1.connectDB)();
