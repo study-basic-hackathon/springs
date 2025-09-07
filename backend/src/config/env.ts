@@ -1,3 +1,5 @@
+// 完成版？おそらくこれ以上編集不要
+
 // 環境変数を TypeScript で扱いやすくするためのラッパー
 import dotenv from "dotenv";
 dotenv.config();

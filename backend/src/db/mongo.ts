@@ -1,3 +1,9 @@
+// 完成版
+// connectDB() で Atlas のデフォルト DB に接続
+// disconnectDB() で切断可能
+// デバッグログで URI を確認できる
+// テスト実行も if (require.main === module) 部分で簡単にできる
+
 import { MongoClient, ServerApiVersion, Db } from "mongodb";
 import { ENV } from "../config/env";
 
@@ -53,9 +59,9 @@ if (require.main === module) {
     try {
       const database = await connectDB();
       await database.admin().command({ ping: 1 });
-      console.log("Ping 成功：MongoDB に接続できました！");
+      console.log("Pingテスト 成功：MongoDB に接続できました！");
     } catch (err) {
-      console.error("DB 接続失敗", err);
+      console.error("DB 接続テスト失敗", err);
     } finally {
       await disconnectDB();
     }
