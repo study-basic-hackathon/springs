@@ -1,3 +1,54 @@
-.map{
-  height: 500px;
+body{
+  margin: 0;
+}
+
+.app{
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+}
+
+/* =============
+  header
+============= */
+.header{
+  padding: 12px 24px;
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.title{
+  margin: 0;
+  font-size: 32px;
+}
+
+.search-form{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-grow: 1;
+}
+
+.search-form .input{
+  width: 350px;
+  font-size: 16px;
+  padding: 4px 8px;
+}
+
+.search-form .button{
+  font-size: 20px;
+  width: 74px;
+  margin-left: 20px;
+}
+
+/* =============
+  map
+============= */
+main{
+  flex-grow: 1;
+}
+
+.map-wrap,.map{
+  height: 100%;
 }
