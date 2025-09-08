@@ -1,3 +1,8 @@
+*{
+  box-sizing: border-box;
+  line-height: 1.2;
+}
+
 body{
   margin: 0;
 }
@@ -51,4 +56,131 @@ main{
 
 .map-wrap,.map{
   height: 100%;
+}
+
+.map-wrap{
+  position: relative;
+}
+
+/* =============
+  modal
+============= */
+.map-modal{
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 500px;
+  height: 100%;
+  box-shadow: 10px 0 10px #dddddd;
+  transform: translateX(-100%);
+}
+
+.map-modal.is-display{
+  transform: translateX(0);
+  transition: 0.3s ease;
+}
+
+.map-modal .inner{
+  width: 90%;
+  max-width: 400px;
+  margin: auto;
+}
+
+.modal-shop{
+  padding: 24px 0;
+}
+
+.shop-image{
+  margin: 0;
+}
+
+.shop-image img{
+  /*後で消す*/
+  height: 170px;
+  background-color: #dddddd;
+  display: block;
+}
+
+.modal-shop .shop-name{
+  font-size: 28px;
+  margin: 20px 0 0;
+}
+
+.post-wrap{
+  border-top: 1px solid #000000;
+  padding: 24px 0;
+}
+
+.post-list{
+  margin: 0;
+  padding: 0;
+  height: 400px;
+  overflow-y: scroll;
+}
+
+.post-list li{
+  list-style: none;
+  padding-bottom: 20px;
+  margin-bottom: 20px;
+  border-bottom: dashed 1px #000000;
+}
+
+.post-list li .time{
+  font-size: 16px;
+}
+
+.post-list li .comment{
+  font-size: 16px;
+  margin: 10px 0 0;
+}
+
+.form-list{
+  margin: 0;
+  padding-top: 12px;
+}
+
+.form-list > div{
+  display: flex;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.form-list > div:first-child{
+  margin-top: 0;
+}
+
+.form-list dt{
+  flex-shrink: 0;
+}
+
+.form-list dd{
+  flex-grow: 1;
+  margin: 0;
+}
+
+.post-form-time,.post-form-comment{
+  font-size: 16px;
+  padding: 4px 8px;
+}
+
+.post-form-time{
+  width: 100px;
+}
+
+.post-form-time + span{
+  vertical-align: bottom;
+  display: inline-block;
+  margin-left: 5px;
+}
+
+.post-form-comment{
+  width: 100%;
+  min-height: 48px;
+  resize: none;
+}
+
+.post-form .button{
+  margin: 15px 0 0 auto;
+  font-size: 16px;
+  display: block;
 }
