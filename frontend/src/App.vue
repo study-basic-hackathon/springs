@@ -1,30 +1,15 @@
-<script setup lang="ts">
-import HelloWorld from './components/HelloWorld.vue'
-</script>
-
 <template>
-  <div>
-    <a href="https://vite.dev" target="_blank">
-      <img src="/vite.svg" class="logo" alt="Vite logo" />
-    </a>
-    <a href="https://vuejs.org/" target="_blank">
-      <img src="./assets/vue.svg" class="logo vue" alt="Vue logo" />
-    </a>
+<header class="header">
+  <h1 class="title">Tabe-Q</h1>
+  <form action="" method="" class="search-form">
+    <input type="text" name="" class="input">
+    <input type="submit" value="検索" class="button">
+  </form>
+</header>
+<main>
+  <div class="map-wrap">
+    <!--マップ用(後でこのコメントは消す)-->
+    <div id="map" class="map"></div>
   </div>
-  <HelloWorld msg="Vite + Vue" />
+</main>
 </template>
-
-<style scoped>
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
-}
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.vue:hover {
-  filter: drop-shadow(0 0 2em #42b883aa);
-}
-</style>
