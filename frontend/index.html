@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Mock Frontend</title>
+    <style>
+      body {
+        font-family: sans-serif;
+        padding: 20px;
+      }
+      form {
+        margin-bottom: 20px;
+      }
+      input,
+      textarea {
+        display: block;
+        margin: 5px 0;
+        padding: 5px;
+        width: 300px;
+      }
+      button {
+        margin-top: 10px;
+        padding: 5px 10px;
+      }
+      .active {
+        color: green;
+        font-weight: bold;
+      }
+      .inactive {
+        color: gray;
+        font-weight: bold;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Queue Mock Frontend</h1>
+
+    <form id="postForm">
+      <label>placeId <input type="text" name="placeId" required /></label>
+      <label>waitTime <input type="number" name="waitTime" required /></label>
+      <label>comment <textarea name="comment"></textarea></label>
+      <button type="submit">送信</button>
+    </form>
+
+    <h2>一覧</h2>
+    <ul id="list"></ul>
+
+    <script>
+      const API_URL = "http://localhost:3000/queue"; // .envで差し替え予定
+
+      // POST
+      document
+        .getElementById("postForm")
+        .addEventListener("submit", async (e) => {
+          e.preventDefault();
+          const formData = new FormData(e.target);
+          const data = Object.fromEntries(formData.entries());
+
+          const res = await fetch(API_URL, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(data),
+          });
+
+          if (res.ok) {
+            alert("投稿しました");
+            loadList();
+            e.target.reset();
+          } else {
+            alert("エラー: " + res.status);
+          }
+        });
+
+      // GET 一覧取得
+      async function loadList() {
+        const res = await fetch(API_URL);
+        const items = await res.json();
+
+        const listEl = document.getElementById("list");
+        listEl.innerHTML = "";
+        items.forEach((item) => {
+          const li = document.createElement("li");
+          li.textContent = `${item.placeId} / ${item.waitTime}分 / ${item.comment}`;
+          li.className = item.isActive ? "active" : "inactive";
+          listEl.appendChild(li);
+        });
+      }
+
+      // 初回ロード時に一覧取得
+      loadList();
+    </script>
+  </body>
+</html>

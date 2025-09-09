@@ -1,10 +1,5 @@
-// 完成版
-
-// バックエンドは CRUD の C(作成) と R(取得) に絞って最小実装
-// 投稿保存時に expiresAt(有効期限) を自動追加　(1時間経ったらisActive = false)
-// 投稿取得時に isActive を判定して返す　→ フロントで色分けを実装しやすく
-
 import { Router } from "express";
+import { ObjectId } from "mongodb";
 import { connectDB } from "../db/mongo";
 import { disconnectDB } from "../db/mongo";
 
@@ -12,13 +7,6 @@ const router = Router();
 
 /**
  * 投稿を保存する API
- * フロントから受け取る JSON:
- * {
- *   placeId: string,  // Google Maps Place ID
- *   waitTime: number, // 待ち時間（分）
- *   comment?: string  // 任意コメント
- * }
- * 自動で createdAt と expiresAt（1時間後）を追加
  */
 router.post("/", async (req, res) => {
   const db = await connectDB();
@@ -39,18 +27,21 @@ router.post("/", async (req, res) => {
     expiresAt,
   });
 
-  res.json({ insertedId: result.insertedId, createdAt, expiresAt });
+  // ✅ ステータスコード 201 Created (新規作成成功)
+  return res.status(201).json({
+    insertedId: result.insertedId,
+    createdAt,
+    expiresAt,
+  });
 });
 
 // テストホゲホゲ
 router.get("/hogehoge", async (_req, res) => {
-  res.json({ hogehoge: "fugafugaaaaaaaaaa" });
+  res.json({ hogehoge: "fugafuga" });
 });
 
 /**
  * 特定店舗の投稿一覧取得
- * placeId パラメータに対応
- * isActive を付与 → フロントで色分け可能
  */
 router.get("/:placeId", async (req, res) => {
   const db = await connectDB();
@@ -63,6 +54,11 @@ router.get("/:placeId", async (req, res) => {
     .sort({ createdAt: -1 })
     .toArray();
 
+  // ✅ 投稿ゼロなら 404
+  if (!posts || posts.length === 0) {
+    return res.status(404).json({ error: "指定された店舗の投稿はありません" });
+  }
+
   const formattedPosts = posts.map((post) => ({
     ...post,
     isActive: post.expiresAt > now,
@@ -72,7 +68,7 @@ router.get("/:placeId", async (req, res) => {
 });
 
 /**
- * 全投稿一覧取得（フロントモック用）
+ * 全投稿一覧取得
  */
 router.get("/", async (_req, res) => {
   const db = await connectDB();
@@ -85,6 +81,28 @@ router.get("/", async (_req, res) => {
   }));
 
   res.json(formattedPosts);
+});
+
+/**
+ * 投稿削除 API
+ */
+router.delete("/:id", async (req, res) => {
+  const db = await connectDB();
+  const { id } = req.params;
+
+  try {
+    const result = await db.collection("queues").deleteOne({
+      _id: new ObjectId(id),
+    });
+
+    if (result.deletedCount === 0) {
+      return res.status(404).json({ error: "指定された投稿は存在しません" });
+    }
+
+    return res.status(200).json({ message: "削除しました", id });
+  } catch (err) {
+    return res.status(400).json({ error: "無効なIDです" });
+  }
 });
 
 export default router;

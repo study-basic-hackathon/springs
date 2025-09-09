@@ -2,6 +2,7 @@
 
 // Express アプリの起動＋ルータ登録＋MongoDB接続＋Graceful Shutdown
 
+import cors from "cors";
 import "dotenv/config";
 import express from "express";
 import { ENV } from "./config/env";
@@ -10,6 +11,7 @@ import { connectDB, disconnectDB } from "./db/mongo";
 
 const app = express();
 app.use(express.json());
+app.use(cors()); // CORSを有効化
 
 // MongoDB 接続してサーバー起動
 (async () => {
