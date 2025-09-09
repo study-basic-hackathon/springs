@@ -38,7 +38,6 @@
               <p class="comment">テキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキスト</p>
             </li>
           </ul>
-
           <form action="" method="post" class="post-form">
             <dl class="form-list">
               <div>
