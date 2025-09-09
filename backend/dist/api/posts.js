@@ -2,16 +2,11 @@
 // 完成版
 Object.defineProperty(exports, "__esModule", { value: true });
 // バックエンドは CRUD の C(作成) と R(取得) に絞って最小実装
-// JSON ボディの必須項目チェックも入れて、親切仕様 ← ？
 // 投稿保存時に expiresAt(有効期限) を自動追加　(1時間経ったらisActive = false)
-// 投稿取得時に isActive を判定して返す　→ フロントで色分けを実装しやすくした
+// 投稿取得時に isActive を判定して返す　→ フロントで色分けを実装しやすく
 const express_1 = require("express");
 const mongo_1 = require("../db/mongo");
 const router = (0, express_1.Router)();
-// テストホゲホゲ
-router.get("/hogehoge", async (_req, res) => {
-    res.json({ hogehoge: "fugafuga" });
-});
 /**
  * 投稿を保存する API
  * フロントから受け取る JSON:
@@ -38,6 +33,10 @@ router.post("/", async (req, res) => {
         expiresAt,
     });
     res.json({ insertedId: result.insertedId, createdAt, expiresAt });
+});
+// テストホゲホゲ
+router.get("/hogehoge", async (_req, res) => {
+    res.json({ hogehoge: "fugafugaaaaaaaaaa" });
 });
 /**
  * 特定店舗の投稿一覧取得

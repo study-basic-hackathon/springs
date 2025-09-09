@@ -94,3 +94,9 @@ DBと通信
 hogehogeより先に router.get(/:placedId.....が読まれて
 
 placedIdにhogehogeが代入されてしまう
+
+
+
+Flutter
+
+Kotlin でAndroidアプリ

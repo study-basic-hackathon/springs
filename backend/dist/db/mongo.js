@@ -1,12 +1,11 @@
 "use strict";
 // 完成版
-// connectDB() で Atlas のデフォルト DB に接続
-// disconnectDB() で切断可能
-// デバッグログで URI を確認できる
-// テスト実行も if (require.main === module) 部分で簡単にできる
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.connectDB = connectDB;
 exports.disconnectDB = disconnectDB;
+// connectDB() で Atlas のデフォルト DB に接続
+// disconnectDB() で切断
+// テスト実行も if (require.main === module) 部分で簡単にできる
 const mongodb_1 = require("mongodb");
 const env_1 = require("../config/env");
 // MongoDB クライアントと DB を格納する変数
@@ -14,14 +13,12 @@ let client;
 let db;
 /**
  * MongoDB に接続する関数
- * 他のファイルからも呼び出して接続可能
+ * 他のファイルから呼び出して使う
  */
 async function connectDB() {
     // すでに接続済みなら再利用
     if (db)
         return db;
-    // デバッグログ
-    console.log("ENV.MONGODB_URI =", env_1.ENV.MONGODB_URI);
     // MongoClient の作成
     client = new mongodb_1.MongoClient(env_1.ENV.MONGODB_URI, {
         serverApi: {
@@ -34,7 +31,7 @@ async function connectDB() {
     await client.connect();
     // デフォルトデータベースに接続
     db = client.db();
-    console.log("MongoDB に接続しました🔪❤️");
+    console.log("MongoDB Atlas に接続しました🔪❤️");
     return db;
 }
 /**
@@ -44,8 +41,9 @@ async function disconnectDB() {
     if (!client)
         return;
     await client.close();
-    console.log("MongoDB の接続を切断しました");
+    console.log("MongoDB Atlas の接続を切断しました💔💔");
 }
+// 未使用だが、テスト用に残しておく
 /**
  * テスト用に直接実行する場合
  * DB に ping を送って接続確認

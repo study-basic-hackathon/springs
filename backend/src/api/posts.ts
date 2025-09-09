@@ -10,11 +10,6 @@ import { disconnectDB } from "../db/mongo";
 
 const router = Router();
 
-// テストホゲホゲ
-router.get("/hogehoge", async (_req, res) => {
-  res.json({ hogehoge: "fugafuga" });
-});
-
 /**
  * 投稿を保存する API
  * フロントから受け取る JSON:
@@ -45,6 +40,11 @@ router.post("/", async (req, res) => {
   });
 
   res.json({ insertedId: result.insertedId, createdAt, expiresAt });
+});
+
+// テストホゲホゲ
+router.get("/hogehoge", async (_req, res) => {
+  res.json({ hogehoge: "fugafugaaaaaaaaaa" });
 });
 
 /**
@@ -85,15 +85,6 @@ router.get("/", async (_req, res) => {
   }));
 
   res.json(formattedPosts);
-});
-
-/**
- * サーバー強制終了
- * - SIGINT: Ctrl + C
- */
-process.on("SIGINT", async () => {
-  await disconnectDB();
-  process.exit(0);
 });
 
 export default router;

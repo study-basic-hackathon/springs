@@ -1,7 +1,7 @@
 import { Db } from "mongodb";
 /**
  * MongoDB に接続する関数
- * 他のファイルからも呼び出して接続可能
+ * 他のファイルから呼び出して使う
  */
 export declare function connectDB(): Promise<Db>;
 /**
