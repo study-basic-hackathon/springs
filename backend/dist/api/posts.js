@@ -1,21 +1,11 @@
 "use strict";
-// 完成版
 Object.defineProperty(exports, "__esModule", { value: true });
-// バックエンドは CRUD の C(作成) と R(取得) に絞って最小実装
-// 投稿保存時に expiresAt(有効期限) を自動追加　(1時間経ったらisActive = false)
-// 投稿取得時に isActive を判定して返す　→ フロントで色分けを実装しやすく
 const express_1 = require("express");
+const mongodb_1 = require("mongodb");
 const mongo_1 = require("../db/mongo");
 const router = (0, express_1.Router)();
 /**
  * 投稿を保存する API
- * フロントから受け取る JSON:
- * {
- *   placeId: string,  // Google Maps Place ID
- *   waitTime: number, // 待ち時間（分）
- *   comment?: string  // 任意コメント
- * }
- * 自動で createdAt と expiresAt（1時間後）を追加
  */
 router.post("/", async (req, res) => {
     const db = await (0, mongo_1.connectDB)();
@@ -32,16 +22,19 @@ router.post("/", async (req, res) => {
         createdAt,
         expiresAt,
     });
-    res.json({ insertedId: result.insertedId, createdAt, expiresAt });
+    // ✅ ステータスコード 201 Created (新規作成成功)
+    return res.status(201).json({
+        insertedId: result.insertedId,
+        createdAt,
+        expiresAt,
+    });
 });
 // テストホゲホゲ
 router.get("/hogehoge", async (_req, res) => {
-    res.json({ hogehoge: "fugafugaaaaaaaaaa" });
+    res.json({ hogehoge: "fugafuga" });
 });
 /**
  * 特定店舗の投稿一覧取得
- * placeId パラメータに対応
- * isActive を付与 → フロントで色分け可能
  */
 router.get("/:placeId", async (req, res) => {
     const db = await (0, mongo_1.connectDB)();
@@ -52,6 +45,10 @@ router.get("/:placeId", async (req, res) => {
         .find({ placeId })
         .sort({ createdAt: -1 })
         .toArray();
+    // ✅ 投稿ゼロなら 404
+    if (!posts || posts.length === 0) {
+        return res.status(404).json({ error: "指定された店舗の投稿はありません" });
+    }
     const formattedPosts = posts.map((post) => ({
         ...post,
         isActive: post.expiresAt > now,
@@ -59,7 +56,7 @@ router.get("/:placeId", async (req, res) => {
     res.json(formattedPosts);
 });
 /**
- * 全投稿一覧取得（フロントモック用）
+ * 全投稿一覧取得
  */
 router.get("/", async (_req, res) => {
     const db = await (0, mongo_1.connectDB)();
@@ -70,6 +67,25 @@ router.get("/", async (_req, res) => {
         isActive: post.expiresAt > now,
     }));
     res.json(formattedPosts);
+});
+/**
+ * 投稿削除 API
+ */
+router.delete("/:id", async (req, res) => {
+    const db = await (0, mongo_1.connectDB)();
+    const { id } = req.params;
+    try {
+        const result = await db.collection("queues").deleteOne({
+            _id: new mongodb_1.ObjectId(id),
+        });
+        if (result.deletedCount === 0) {
+            return res.status(404).json({ error: "指定された投稿は存在しません" });
+        }
+        return res.status(200).json({ message: "削除しました", id });
+    }
+    catch (err) {
+        return res.status(400).json({ error: "無効なIDです" });
+    }
 });
 exports.default = router;
 //# sourceMappingURL=posts.js.map

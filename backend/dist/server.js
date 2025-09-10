@@ -5,6 +5,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 // Express アプリの起動＋ルータ登録＋MongoDB接続＋Graceful Shutdown
+const cors_1 = __importDefault(require("cors"));
 require("dotenv/config");
 const express_1 = __importDefault(require("express"));
 const env_1 = require("./config/env");
@@ -12,6 +13,7 @@ const posts_1 = __importDefault(require("./api/posts"));
 const mongo_1 = require("./db/mongo");
 const app = (0, express_1.default)();
 app.use(express_1.default.json());
+app.use((0, cors_1.default)()); // CORSを有効化
 // MongoDB 接続してサーバー起動
 (async () => {
     try {
