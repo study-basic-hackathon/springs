@@ -122,15 +122,17 @@ main{
   transform: translate(-50%, -50%) rotate(-45deg);
 }
 
-.shop-image{
+.modal-shop-image{
   margin: 0;
+  height: 170px;
 }
 
-.shop-image img{
-  /*後で消す*/
-  height: 170px;
-  background-color: #dddddd;
+.modal-shop-image img{
+  width: 100%;
+  height: 100%;
   display: block;
+  object-fit: cover;
+  object-position: center;
 }
 
 .modal-shop .shop-name{
@@ -297,8 +299,7 @@ main{
     right: 3px;
   }
 
-  .shop-image img{
-    /* 後で消す */
+  .modal-shop-image{
     height: 100px;
   }
 
