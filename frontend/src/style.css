@@ -1,6 +1,7 @@
 *{
   box-sizing: border-box;
   line-height: 1.2;
+  margin: 0;
 }
 
 body{
@@ -71,13 +72,15 @@ main{
   left: 0;
   width: 500px;
   height: 100%;
-  box-shadow: 10px 0 10px #dddddd;
   transform: translateX(-100%);
+  background-color: #ffffff; 
+  display: flex;
+  flex-direction: column;
+  transition: 0.3s ease;
 }
 
 .map-modal.is-display{
   transform: translateX(0);
-  transition: 0.3s ease;
 }
 
 .map-modal .inner{
@@ -88,17 +91,49 @@ main{
 
 .modal-shop{
   padding: 24px 0;
+  position: relative;
 }
 
-.shop-image{
-  margin: 0;
+.modal-shop > .close-button{
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  top: 10px;
+  right: 10px;
+  cursor: pointer;
 }
 
-.shop-image img{
-  /*後で消す*/
-  height: 170px;
-  background-color: #dddddd;
+.modal-shop > .close-button::before,
+.modal-shop > .close-button::after{
+  content: "";
   display: block;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 120%;
+  height: 2px;
+  background-color: #000000;
+}
+
+.modal-shop > .close-button::before{
+  transform: translate(-50%, -50%) rotate(45deg);
+}
+
+.modal-shop > .close-button::after{
+  transform: translate(-50%, -50%) rotate(-45deg);
+}
+
+.modal-shop-image{
+  margin: 0;
+  height: 170px;
+}
+
+.modal-shop-image img{
+  width: 100%;
+  height: 100%;
+  display: block;
+  object-fit: cover;
+  object-position: center;
 }
 
 .modal-shop .shop-name{
@@ -109,20 +144,33 @@ main{
 .post-wrap{
   border-top: 1px solid #000000;
   padding: 24px 0;
+  height: 100%;
+}
+
+.post-wrap > .inner{
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  height: 100%;
 }
 
 .post-list{
   margin: 0;
   padding: 0;
-  height: 400px;
   overflow-y: scroll;
+  flex-grow: 1;
+  height: 200px;
 }
 
 .post-list li{
   list-style: none;
   padding-bottom: 20px;
-  margin-bottom: 20px;
+  margin-top: 20px;
   border-bottom: dashed 1px #000000;
+}
+
+.post-list li:first-child{
+  margin-top: 0;
 }
 
 .post-list li .time{
@@ -158,6 +206,10 @@ main{
   margin: 0;
 }
 
+.post-form{
+  margin-top: auto;
+}
+
 .post-form-time,.post-form-comment{
   font-size: 16px;
   padding: 4px 8px;
@@ -183,4 +235,84 @@ main{
   margin: 15px 0 0 auto;
   font-size: 16px;
   display: block;
+}
+
+/* =============
+  TABLET
+============= */
+@media screen and (max-width: 991px){
+  .map-modal{
+    width: 400px;
+  }
+
+  .modal-shop > .close-button{
+    top: 5px;
+    right: 5px;
+    width: 15px;
+    height: 15px;
+  }
+}
+
+/* =============
+  SP
+============= */
+@media screen and (max-width: 767px){
+  .header{
+    padding: 12px;
+    display: block;
+  }
+
+  .title{
+    font-size: 16px;
+  }
+
+  .search-form{
+    justify-content: flex-start;
+    margin-top: 10px;
+  }
+
+  .search-form .button{
+    font-size: 16px;
+  }
+
+  .map-modal{
+    width: 100%;
+    top: auto;
+    bottom: 0;
+    box-shadow: none;
+    transform: translateY(100%);
+  }
+
+  .map-modal.is-display{
+    transform: translateY(0);
+  }
+
+  .map-modal .inner{
+    max-width: none;
+  }
+
+  .modal-shop{
+    padding: 16px 0;
+  }
+
+  .modal-shop > .close-button{
+    top: 3px;
+    right: 3px;
+  }
+
+  .modal-shop-image{
+    height: 100px;
+  }
+
+  .modal-shop .shop-name{
+    font-size: 20px;
+  }
+
+  .post-wrap{
+    padding: 16px 0;
+  }
+
+  .post-list{
+    height: 150px;
+  }
 }
