@@ -63,8 +63,6 @@ async function initMap() {
 
   // 初期表示として既存投稿がある店舗にピンを立てる
   await loadInitialPinsFromQueue()
-  // 1時間以上前の投稿を削除する
-  await deleteOneHourAgoPosts();
 }
 
 //ピンを初期化
@@ -192,28 +190,6 @@ async function searchAndPin(query) {
       }
     )
   })
-}
-
-// 1時間以上前の投稿を削除する
-async function deleteOneHourAgoPosts() {
-  try {
-    const res = await fetch(`${API_BASE}/queue`, { method: 'GET' });
-    if (!res.ok) return;
-    const rows = await res.json();
-    //現在時刻
-    const now = new Date();
-    const oneHourAgo = new Date();
-    oneHourAgo.setHours(now.getHours() - 1);
-
-    for (const r of rows || []) {
-      const createdAtDate = new Date(r.createdAt);
-      if(createdAtDate < oneHourAgo){
-        await fetch(`${API_BASE}/queue/${r._id}`, { method: 'DELETE' });
-      }
-    }
-  } catch (_) {
-    // 略
-  }
 }
 
 function ensureInfoWindow() {
