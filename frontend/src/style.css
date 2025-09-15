@@ -25,8 +25,13 @@ body{
 }
 
 .title{
+  width: 140px;
   margin: 0;
-  font-size: 32px;
+}
+
+.title > img{
+  width: 100%;
+  /* display: block; */
 }
 
 .search-form{
@@ -260,10 +265,6 @@ main{
   .header{
     padding: 12px;
     display: block;
-  }
-
-  .title{
-    font-size: 16px;
   }
 
   .search-form{

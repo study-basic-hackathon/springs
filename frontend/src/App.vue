@@ -92,7 +92,7 @@ async function onPoiSelected(place) {
 
 <template>
 <header class="header">
-  <h1 class="title">Tabe-Q</h1>
+  <div class="title"><img src="@/assets/tabe-q.jpg" alt="Tabe-Q"></div>
   <!-- 検索バー -->
   <SearchBar @search="onSearch" />
 </header>
