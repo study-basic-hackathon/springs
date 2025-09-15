@@ -126,12 +126,20 @@ async function loadInitialPinsFromQueue() {
     if (!res.ok) return
     const rows = await res.json()
 
-    // placeId 単位で1件のみ
+    // placeId 単位で最新の投稿を採用
     const byPlace = new Map()
     for (const r of rows || []) {
       const pid = r.placeId || r.place_id
       if (!pid) continue
-      if (!byPlace.has(pid)) byPlace.set(pid, r)
+      //最新かみていく
+      const cur = byPlace.get(pid)
+
+      const rTime = r?.createdAt ? new Date(r.createdAt).getTime() : -1
+      const cTime = cur?.createdAt ? new Date(cur.createdAt).getTime() : -1
+
+      if(!cur || rTime > cTime) {
+        byPlace.set(pid, r) 
+      }
     }
 
     for (const [pid, row] of byPlace) {
