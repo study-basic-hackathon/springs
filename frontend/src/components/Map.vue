@@ -1,5 +1,5 @@
 <template>
-  <div ref="mapEl" class="map"></div>
+  <div ref="mapEl" class="map" id="map"></div>
 </template>
 
 <script setup>

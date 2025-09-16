@@ -1,6 +1,6 @@
 <template>
   <!-- visible のときだけ is-display を付与 -->
-  <div class="map-modal" :class="{ 'is-display': visible }">
+  <div class="map-modal" :class="{ 'is-display': visible }" id="modal">
     <div class="modal-shop">
       <div class="inner">
         <figure class="modal-shop-image">
