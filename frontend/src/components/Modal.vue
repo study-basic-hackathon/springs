@@ -18,7 +18,7 @@
         <template v-else>
           <ul v-if="comments && comments.length > 0" class="post-list">
             <li v-for="(c, i) in comments" :key="i">
-              <span class="time">{{ c.time }}</span>
+              <span class="time" :class="{ isNew: c.isActive}">{{ c.time }}</span>
               <p class="comment">{{ c.comment }}</p>
             </li>
           </ul>

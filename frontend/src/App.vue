@@ -58,10 +58,9 @@ async function loadComments(placeId) {
 
     // 配列で返る前提に寄せる（配列でなければ配列化）
     const arr = Array.isArray(rows) ? rows : [rows]
-    const validArr = arr.filter(r => r.isActive);
 
     // comment を必ず文字列化
-    comments.value = validArr.map(r => {
+    comments.value = arr.map(r => {
       const c = r?.comment
       const commentStr =
         typeof c === 'string' ? c :
@@ -69,7 +68,8 @@ async function loadComments(placeId) {
       return {
         time: toJstString(r?.createdAt),
         comment: commentStr,
-        waitTime: (r?.waitTime ?? null)
+        waitTime: (r?.waitTime ?? null),
+        isActive: r.isActive
       }
     })
 
