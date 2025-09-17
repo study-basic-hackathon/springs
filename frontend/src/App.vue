@@ -1,5 +1,6 @@
 <script setup>
 import { ref } from 'vue'
+import { onMounted } from 'vue'
 import Map from './components/Map.vue'
 import SearchBar from './components/SearchBar.vue'
 import Modal from './components/Modal.vue'
@@ -12,6 +13,15 @@ const selectedPlace = ref(null)
 const comments = ref([])               //コメント一覧と読み込み状態
 const isLoadingComments = ref(false)
 
+//マップの高さ調整
+function adjustmentMapHeight() {
+  const app = document.getElementById('app');
+  const map = document.getElementById('map');
+  const modalHeight = document.getElementById('modal').offsetHeight;
+  map.style.height = modalHeight + 'px';
+  app.style.height = 'auto';
+  app.style.overflow = 'visible';
+}
 
 /*ピンを不選択の場合、モーダルを閉じる*/
 function closeModal() {
@@ -48,10 +58,9 @@ async function loadComments(placeId) {
 
     // 配列で返る前提に寄せる（配列でなければ配列化）
     const arr = Array.isArray(rows) ? rows : [rows]
-    const validArr = arr.filter(r => r.isActive);
 
     // comment を必ず文字列化
-    comments.value = validArr.map(r => {
+    comments.value = arr.map(r => {
       const c = r?.comment
       const commentStr =
         typeof c === 'string' ? c :
@@ -59,7 +68,8 @@ async function loadComments(placeId) {
       return {
         time: toJstString(r?.createdAt),
         comment: commentStr,
-        waitTime: (r?.waitTime ?? null)
+        waitTime: (r?.waitTime ?? null),
+        isActive: r.isActive
       }
     })
 
@@ -87,12 +97,15 @@ async function onPoiSelected(place) {
   openModalWith(place)
   const pid = place?.place_id || place?.placeId
   await loadComments(pid)
+
+  // マップサイズに調整
+  adjustmentMapHeight();
 }
 </script>
 
 <template>
-<header class="header">
-  <h1 class="title">Tabe-Q</h1>
+<header class="header" id="header">
+  <div class="title"><img src="@/assets/tabe-q.jpg" alt="Tabe-Q"></div>
   <!-- 検索バー -->
   <SearchBar @search="onSearch" />
 </header>

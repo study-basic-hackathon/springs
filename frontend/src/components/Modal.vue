@@ -1,6 +1,6 @@
 <template>
   <!-- visible のときだけ is-display を付与 -->
-  <div class="map-modal" :class="{ 'is-display': visible }">
+  <div class="map-modal" :class="{ 'is-display': visible }" id="modal">
     <div class="modal-shop">
       <div class="inner">
         <figure class="modal-shop-image">
@@ -18,7 +18,7 @@
         <template v-else>
           <ul v-if="comments && comments.length > 0" class="post-list">
             <li v-for="(c, i) in comments" :key="i">
-              <span class="time">{{ c.time }}</span>
+              <span class="time" :class="{ isNew: c.isActive}">{{ c.time }}</span>
               <p class="comment">{{ c.comment }}</p>
             </li>
           </ul>
