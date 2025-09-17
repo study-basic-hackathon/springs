@@ -1,30 +1,45 @@
+// 完成版
+
+// Express アプリの起動＋ルータ登録＋MongoDB接続＋Graceful Shutdown
+
+import cors from "cors";
 import "dotenv/config";
 import express from "express";
-import cors from "cors";
 import { ENV } from "./config/env";
-import { connectDB } from "./utils/db";
+import postsRouter from "./api/posts";
+import { connectDB, disconnectDB } from "./db/mongo";
 
 const app = express();
-app.use(cors());
 app.use(express.json());
+app.use(cors()); // CORSを有効化
 
-// 疎通確認用エンドポイント
-app.get("/health", (_req, res) => {
-  res.json({
-    ok: true,
-    message: "server running",
-    ts: new Date().toISOString(),
-  });
-});
-
+// MongoDB 接続してサーバー起動
 (async () => {
   try {
-    await connectDB();
-    app.listen(ENV.PORT, () => {
-      console.log(`[server] http://localhost:${ENV.PORT}`);
+    await connectDB(); // サーバー起動時に自動接続
+
+    // 投稿 API ルータを登録
+    app.use("/queue", postsRouter);
+
+    // サーバー起動
+    const server = app.listen(ENV.PORT, () => {
+      console.log(`Server running on http://localhost:${ENV.PORT}`);
     });
-  } catch (e) {
-    console.error(e);
+
+    // サーバー終了時のクリーンアップ
+    const gracefulShutdown = async (signal: string) => {
+      console.log(`\n${signal} 受信 → サーバーを停止します...`);
+      server.close(async () => {
+        console.log("HTTP サーバー停止完了");
+        await disconnectDB(); // ここでDB(Atlas)切断
+        process.exit(0);
+      });
+    };
+
+    process.on("SIGINT", () => gracefulShutdown("SIGINT (Ctrl+C)"));
+    process.on("SIGTERM", () => gracefulShutdown("SIGTERM"));
+  } catch (err) {
+    console.error("DB接続失敗！", err);
     process.exit(1);
   }
 })();
