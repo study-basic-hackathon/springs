@@ -15,7 +15,7 @@ Q = 行列（Queue）
 
 📸 画像イメージ
 アプリイメージ:  
-![App Image](img/app-img.png)
+<img src="img/app-img.png" alt="App Screenshot" width="600" />
 
 QR コード:  
 <img src="img/qr.png" alt="QR Code" width="300" />
