@@ -15,10 +15,10 @@ Q = 行列（Queue）
 
 📸 画像イメージ
 アプリ画面スクリーンショット:  
-![App Image](app-img.png)
+![App Image](img/app-img.png)
 
 接続用 QR コード:  
-![QR Code](qr.png)
+![QR Code](img/qr.png)
 
 🏗 開発背景・コンセプト
 
