@@ -17,7 +17,7 @@ Q = 行列（Queue）
 アプリイメージ:  
 <img src="img/app-img.png" alt="App Screenshot" width="800" />
 
-QR コード:  
+QR コード (モバイル表示対応):  
 <img src="img/qr.png" alt="QR Code" width="300" />
 
 🏗 開発背景・コンセプト
