@@ -18,7 +18,7 @@ Q = 行列（Queue）
 ![App Image](img/app-img.png)
 
 QR コード:  
-<img src="img/qr.png" alt="QR Code" width="150" />
+<img src="img/qr.png" alt="QR Code" width="300" />
 
 🏗 開発背景・コンセプト
 
