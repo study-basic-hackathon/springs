@@ -14,11 +14,11 @@ Q = 行列（Queue）
 - [Tabe-Q : https://springs-five.vercel.app/](https://springs-five.vercel.app/)
 
 📸 画像イメージ
-アプリ画面スクリーンショット:  
+アプリイメージ:  
 ![App Image](img/app-img.png)
 
-接続用 QR コード:  
-![QR Code](img/qr.png)
+QR コード:  
+<img src="img/qr.png" alt="QR Code" width="150" />
 
 🏗 開発背景・コンセプト
 
